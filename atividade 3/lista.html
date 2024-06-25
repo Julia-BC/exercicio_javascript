@@ -13,51 +13,88 @@
         <li>Café</li>
         <li>Chá</li>
     </ul>
-    <p>Click em "Adicionar" para inserir um item ao final da lista: </p>
-        <div>
+        <div id="corpo">
+            <p>Click em "Adicionar" para inserir um item ao final da lista: </p>
             <input type="text" id="input" placeholder="Digite o item da sua lista">
             <button id="botao-add">Adicionar</button>
-            <br>
             <button class="botao-editar">Editar</button>
-            <button class="botao-apagar">Apagar</button>
         </div>
 
             
 
-        <div class="botao-cores">
-            <button>
-                <input type="radio" name="color" value="azul">Azul
-            </button>
-            <button>
-                <input type="radio" name="color" value="vermelho">Vermelho
-            </button>
-            <button>
-                <input type="radio" name="color" value="roxo">Roxo
-            </button>
-            
+        <div class="botao-cores" id="botao-cores">
+                <label style="color: rgb(8, 8, 242)"><input type="radio" name="color" value="blue">Azul</label> 
+                <label style="color: red;"><input type="radio" name="color" value="red">Vermelho</label>
+                <label style="color: black;"><input type="radio" name="color" value="black">Preto</label>
         </div>
+        <br>
+        <a href="http://127.0.0.1:5500/index.html">voltar</a>
 
 <script>
-    document.getElementById("botao-add").addEventListener("click",myFunction)
+    document.getElementById("botao-add").addEventListener("click",myFunction);
 
 function myFunction(){
     const input = document.getElementById('input').value;
 
     //seleção de cores
-    const selecaocolor = document.querySelector('input[name="color"]:checked').value;
+    const colorElement = document.querySelector('input[name="color"]:checked');
+    if (!colorElement){
+        alert("Escolha uma cor.");
+        return;
+    }
+    const selecaocolor = colorElement.value;
 
     // criação nó "li"
     const node = document.createElement("li");
     // criação nó do item
     const textnode = document.createTextNode(input);
     // definição da cor
-    if (selecaocolor) {
         node.style.color = selecaocolor;
-    }
+
     //adiciona o nó de texto no nó "li"
     node.appendChild(textnode);
+
+    //adiciona o botão de edição no nó "li"
+    const botao_edicao = document.createElement("button");
+    botao_edicao.innerText = "Editar";
+    botao_edicao.className = "botao-editar";
+    botao_edicao.addEventListener("click", editarItem);
+    node.appendChild(botao_edicao);
+
     //adiciona o nó li á lista
     document.getElementById("mylista").appendChild(node);
+}
+
+    function editarItem(event){
+        const li = event.target.parentNode;
+        const currentText = li.firstChild.textcontente;
+
+        //criação de um campo de entrada para edição
+        const input = document.createElement("input");
+        input.type = "text";
+        input.value = currentText;
+        li.insertBefore(input,li.firstChild);
+        li.removeChild(li.firstChild); 
+
+        // muda o botão
+        event.target.innerText = "Salvar";
+        event.target.removeEventListener ("click", editarItem);
+        event.target.addEventListener("click", salvarEdicao);
+    }
+function salvarEdicao(event){
+    const li = event.target.parentNode;
+    const input = li.firstChild;
+    const newText = input.value;
+
+    //criação de um nó de texto para um novo valor
+    const textnode = document.createTextNode(newText);
+    li.insertBefore(textnode,input);
+    li.removeChild(input);
+
+    //mudança do botão para editar
+    event.target.innerText = "Editar";
+    event.target.removeEventListener("click", salvarEdicao);
+    event.target.addEventListener("click", editarItem);
 }
 
 </script>
