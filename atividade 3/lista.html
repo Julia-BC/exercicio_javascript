@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lista - Atividade 3</title>
+    <link rel="stylesheet" type="text/css" href="style.css" /> 
+    
+</head>
+<body>
+    <h1>Atividade 3</h1>
+    <ul id="mylista">
+        <li>Café</li>
+        <li>Chá</li>
+    </ul>
+    <p>Click em "Adicionar" para inserir um item ao final da lista: </p>
+        <div>
+            <input type="text" id="input" placeholder="Digite o item da sua lista">
+            <button id="botao-add">Adicionar</button>
+            <br>
+            <button class="botao-editar">Editar</button>
+            <button class="botao-apagar">Apagar</button>
+        </div>
+
+            
+
+        <div class="botao-cores">
+            <button>
+                <input type="radio" name="color" value="azul">Azul
+            </button>
+            <button>
+                <input type="radio" name="color" value="vermelho">Vermelho
+            </button>
+            <button>
+                <input type="radio" name="color" value="roxo">Roxo
+            </button>
+            
+        </div>
+
+<script>
+    document.getElementById("botao-add").addEventListener("click",myFunction)
+
+function myFunction(){
+    const input = document.getElementById('input').value;
+
+    //seleção de cores
+    const selecaocolor = document.querySelector('input[name="color"]:checked').value;
+
+    // criação nó "li"
+    const node = document.createElement("li");
+    // criação nó do item
+    const textnode = document.createTextNode(input);
+    // definição da cor
+    if (selecaocolor) {
+        node.style.color = selecaocolor;
+    }
+    //adiciona o nó de texto no nó "li"
+    node.appendChild(textnode);
+    //adiciona o nó li á lista
+    document.getElementById("mylista").appendChild(node);
+}
+
+</script>
+</body>
+</html>
