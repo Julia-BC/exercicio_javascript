@@ -17,7 +17,6 @@
             <p>Click em "Adicionar" para inserir um item ao final da lista: </p>
             <input type="text" id="input" placeholder="Digite o item da sua lista">
             <button id="botao-add">Adicionar</button>
-            <button class="botao-editar">Editar</button>
         </div>
 
             
@@ -33,69 +32,70 @@
 <script>
     document.getElementById("botao-add").addEventListener("click",myFunction);
 
-function myFunction(){
-    const input = document.getElementById('input').value;
-    
-    //seleção de cores
-    const colorElement = document.querySelector('input[name="color"]:checked');
-    if (!colorElement){
-        alert("Escolha uma cor.");
-        return;
-    }
-    const selecaocolor = colorElement.value;
+    function myFunction() {
+        const input = document.getElementById('input').value;
 
-    // criação nó "li"
-    const node = document.createElement("li");
-    // criação nó do item
-    const textnode = document.createTextNode(input);
-    // definição da cor
+        // Seleção de cores
+        const colorElement = document.querySelector('input[name="color"]:checked');
+        if (!colorElement) {
+            alert("Escolha uma cor.");
+            return;
+        }
+        const selecaocolor = colorElement.value;
+
+        // Criação nó "li"
+        const node = document.createElement("li");
+        // Criação nó do item
+        const textnode = document.createTextNode(input);
+        // Definição da cor
         node.style.color = selecaocolor;
 
-    //adiciona o nó de texto no nó "li"
-    node.appendChild(textnode);
+        // Adiciona o nó de texto no nó "li"
+        node.appendChild(textnode);
 
-    //adiciona o botão de edição no nó "li"
-    const botao_edicao = document.createElement("button");
-    botao_edicao.innerText = "Editar";
-    botao_edicao.className = "botao-editar";
-    botao_edicao.addEventListener("click", editarItem);
-    node.appendChild(botao_edicao);
+        // Adiciona o botão de edição no nó "li"
+        const botao_edicao = document.createElement("button");
+        botao_edicao.innerText = "Editar";
+        botao_edicao.className = "botao-editar";
+        botao_edicao.addEventListener("click", editarItem);
+        node.appendChild(botao_edicao);
 
-    //adiciona o nó li á lista
-    document.getElementById("mylista").appendChild(node);
-}
+        // Adiciona o nó "li" à lista
+        document.getElementById("mylista").appendChild(node);
+    }
 
-    function editarItem(event){
+    function editarItem(event) {
         const li = event.target.parentNode;
-        const currentText = li.firstChild.textcontente;
+        const currentText = li.firstChild.textContent;
 
-        //criação de um campo de entrada para edição
+        // Criação de um campo de entrada para edição
         const input = document.createElement("input");
         input.type = "text";
         input.value = currentText;
-        li.insertBefore(input,li.firstChild);
-        li.removeChild(li.firstChild); 
+        li.insertBefore(input, li.firstChild);
+        li.removeChild(li.firstChild.nextSibling); 
 
-        // muda o botão
+        // Muda o botão
         event.target.innerText = "Salvar";
-        event.target.removeEventListener ("click", editarItem);
+        event.target.removeEventListener("click", editarItem);
         event.target.addEventListener("click", salvarEdicao);
     }
-function salvarEdicao(event){
-    const li = event.target.parentNode;
-    const input = li.firstChild;
-    const newText = input.value;
 
-    //criação de um nó de texto para um novo valor
-    const textnode = document.createTextNode(newText);
-    li.insertBefore(textnode,input);
-    li.removeChild(input);
+    function salvarEdicao(event) {
+        const li = event.target.parentNode;
+        const input = li.firstChild;
+        const newText = input.value;
 
-    //mudança do botão para editar
-    event.target.innerText = "Editar";
-    event.target.removeEventListener("click", salvarEdicao);
-    event.target.addEventListener("click", editarItem);
-}
+        // Criação de um nó de texto para um novo valor
+        const textnode = document.createTextNode(newText);
+        li.insertBefore(textnode, input);
+        li.removeChild(input);
+
+        // Mudança do botão para editar
+        event.target.innerText = "Editar";
+        event.target.removeEventListener("click", salvarEdicao);
+        event.target.addEventListener("click", editarItem);
+    }
 
 </script>
 </body>
